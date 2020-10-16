@@ -37,6 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <filesystem>
 
 #include "sgx_error.h"       /* sgx_status_t */
 #include "sgx_eid.h"     /* sgx_enclave_id_t */
@@ -49,23 +50,7 @@
 # define FALSE 0
 #endif
 
-#if _M_X64 
-# ifdef _DEBUG
-#  define TOKEN_FILENAME   "C:\\Dev\\Secretarium\\SampleSwitchless\\x64\\Debug\\enclave.token"
-#  define ENCLAVE_FILENAME "C:\\Dev\\Secretarium\\SampleSwitchless\\x64\\Debug\\Enclave.signed.dll"
-# else
-#  define TOKEN_FILENAME   "C:\\Dev\\Secretarium\\SampleSwitchless\\x64\\Prerelease\\enclave.token"
-#  define ENCLAVE_FILENAME "C:\\Dev\\Secretarium\\SampleSwitchless\\x64\\Prerelease\\Enclave.signed.dll"
-# endif 
-#else
-# ifdef _DEBUG
-#  define TOKEN_FILENAME   "C:\\Dev\\Secretarium\\SampleSwitchless\\Debug\\enclave.token"
-#  define ENCLAVE_FILENAME "C:\\Dev\\Secretarium\\SampleSwitchless\\Debug\\Enclave.signed.dll"
-# else
-#  define TOKEN_FILENAME   "C:\\Dev\\Secretarium\\SampleSwitchless\\Prerelease\\enclave.token"
-#  define ENCLAVE_FILENAME "C:\\Dev\\Secretarium\\SampleSwitchless\\Prerelease\\Enclave.signed.dll"
-# endif 
-#endif 
+#define ENCLAVE_FILENAME "Enclave.signed.dll"
 
 extern sgx_enclave_id_t global_eid;    /* global enclave id */
 

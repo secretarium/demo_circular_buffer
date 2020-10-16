@@ -172,11 +172,13 @@ void print_error_message(sgx_status_t ret)
 /* Initialize the enclave:
  *   Call sgx_create_enclave to initialize an enclave instance
  */
-int initialize_enclave(const sgx_uswitchless_config_t* us_config)
+int initialize_enclave(const char* executable_name, const sgx_uswitchless_config_t* us_config)
 {
     sgx_launch_token_t token = {0};
     sgx_status_t ret = SGX_ERROR_UNEXPECTED;
     int updated = 0;
+
+    std::filesystem::path enclave_file = std::filesystem::path(executable_name).parent_path() / ENCLAVE_FILENAME;
 
     /* Call sgx_create_enclave to initialize an enclave instance */
     /* Debug Support: set 2nd parameter to 1 */
@@ -187,7 +189,7 @@ int initialize_enclave(const sgx_uswitchless_config_t* us_config)
 
         enclave_ex_p[SGX_CREATE_ENCLAVE_EX_SWITCHLESS_BIT_IDX] = (const void*)us_config;
 
-        ret = sgx_create_enclave_ex(ENCLAVE_FILENAME, SGX_DEBUG_FLAG, &token, &updated, &global_eid, NULL, SGX_CREATE_ENCLAVE_EX_SWITCHLESS, enclave_ex_p);
+        ret = sgx_create_enclave_ex(enclave_file.generic_u8string().c_str(), SGX_DEBUG_FLAG, &token, &updated, &global_eid, NULL, SGX_CREATE_ENCLAVE_EX_SWITCHLESS, enclave_ex_p);
         if (ret != SGX_SUCCESS) {
             print_error_message(ret);
             return -1;
@@ -195,7 +197,7 @@ int initialize_enclave(const sgx_uswitchless_config_t* us_config)
     }
     else
     {
-        ret = sgx_create_enclave(ENCLAVE_FILENAME, SGX_DEBUG_FLAG, &token, &updated, &global_eid, NULL);
+        ret = sgx_create_enclave(enclave_file.generic_u8string().c_str(), SGX_DEBUG_FLAG, &token, &updated, &global_eid, NULL);
         if (ret != SGX_SUCCESS) {
             print_error_message(ret);
             return -1;
@@ -333,7 +335,7 @@ int SGX_CDECL main(int argc, char *argv[])
     us_config.num_tworkers = 2;
 
     /* Initialize the enclave */
-    if(initialize_enclave(&us_config) < 0)
+    if(initialize_enclave(argv[0], &us_config) < 0)
     {
         printf("Error: enclave initialization failed\n");
         return -1;

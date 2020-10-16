@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 message("sfx enclave")
 
 if(${BUILD_ENCLAVE})
-  add_enclave_library(switchless_enclave
+  add_enclave_library(Enclave
     
     SRCS
     Enclave.h
@@ -14,12 +14,12 @@ if(${BUILD_ENCLAVE})
     TRUSTED_LIBS
   )
 
-  target_compile_definitions(switchless_enclave PRIVATE ${ENCLAVE_DEFINES})
-  target_include_directories(switchless_enclave PUBLIC include PRIVATE ${ENCLAVE_LIBCXX_INCLUDES})
-  target_compile_options(switchless_enclave PRIVATE ${ENCLAVE_COMPILE_OPTIONS})
-  set_property(TARGET switchless_enclave PROPERTY COMPILE_PDB_NAME switchless_enclave)
+  target_compile_definitions(Enclave PRIVATE ${ENCLAVE_DEFINES})
+  target_include_directories(Enclave PUBLIC include PRIVATE ${ENCLAVE_LIBCXX_INCLUDES})
+  target_compile_options(Enclave PRIVATE ${ENCLAVE_COMPILE_OPTIONS})
+  set_property(TARGET Enclave PROPERTY COMPILE_PDB_NAME Enclave)
     
-  target_link_libraries(switchless_enclave
+  target_link_libraries(Enclave
     PRIVATE
     
     switchless_enclave_edl_enclave
@@ -28,8 +28,8 @@ if(${BUILD_ENCLAVE})
     sgx_tswitchless.lib
   )
 
-  set_property(TARGET switchless_enclave PROPERTY COMPILE_PDB_NAME switchless_enclave) 
-  enclave_sign(switchless_enclave KEY Enclave_private.pem CONFIG Enclave.config.xml OUTPUT switchless_enclave.signed.dll)
+  set_property(TARGET Enclave PROPERTY COMPILE_PDB_NAME Enclave) 
+  enclave_sign(Enclave KEY Enclave_private.pem CONFIG Enclave.config.xml OUTPUT Enclave.signed.dll)
   
 
 endif()

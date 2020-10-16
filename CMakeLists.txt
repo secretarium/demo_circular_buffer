@@ -63,6 +63,7 @@ set(SGX_HW ON)
 
 project(test_switchless VERSION 0.1.0)
 
+message("BUILD_TYPE ${BUILD_TYPE}")
 
   if(WIN32)
     set(ENCLAVE_SSL_INCLUDES "C:/Dev/Libs/VS2015/x64/openssl-1.1.1/include")
