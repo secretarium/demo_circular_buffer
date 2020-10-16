@@ -1,0 +1,6 @@
+[submodule "submodules/mbedtls"]
+	path = submodules/mbedtls
+	url = https://gitlab-core.secretarium.org/edward/mbedtls.git
+[submodule "submodules/nng"]
+	path = submodules/nng
+	url = https://gitlab-core.secretarium.org/edward/nng.git

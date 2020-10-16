@@ -1,0 +1,33 @@
+buildType:
+  default: Debug
+  choices:
+    Debug:
+      short: Debug
+      long: Emit debug information
+      buildType: Debug
+      settings:
+        BUILD_TYPE: debug
+    DebugWithSigning:
+      short: DebugWithSigning
+      long: Emit DebugWithSigning information
+      buildType: DebugWithSigning
+      settings:
+        BUILD_TYPE: debugwithsigning
+    Simulation:
+      short: Simulation
+      long: Emit debug simulation information 
+      buildType: Simulation
+      settings:
+        BUILD_TYPE: simulation
+    Prerelease:
+      short: Prerelease
+      long: Prerelease generated code
+      buildType: Prerelease
+      settings:
+        BUILD_TYPE: prerelease
+    Release:
+      short: Release
+      long: Optimize generated code
+      buildType: Release
+      settings:
+        BUILD_TYPE: release

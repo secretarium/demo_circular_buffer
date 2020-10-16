@@ -1,0 +1,36 @@
+default:
+ image: aoehmich/base-sgx@sha256:ceffaf210f73581ccaed8addc31c59299c5b69b36b70207e3e00e5fb253c8e8f
+
+stages:
+  - build-debug
+  - build-prerelease
+#  - test
+
+build-debug:
+ stage: build-debug
+ cache: {}
+ artifacts:
+   expire_in: 1 week
+ tags:
+ - shell
+ script:
+# run PowerShell script
+  - powershell -NoProfile -Command { & "Tooling\Build Solution\clean.ps1" -tempfolder "C:\temp" }
+  - powershell -Command { & "Tooling\Build Solution\compile.ps1" -configuration Debug -solutionpath "C:\tmp\secretarium\core" -MSBuildPath "C:\VS\MSBuild\15.0\Bin" -local $False}
+  - powershell -NoProfile -Command { & "Tooling\Build Solution\run_tests.ps1" -configuration Debug -VSPath "C:\VS\"  -exclude "secretarium_node_interractive_test.exe, secretarium_node_test.exe" }
+  - powershell -NoProfile -Command { & "Tooling\Build Solution\clean.ps1" -tempfolder "C:\temp" }
+  - powershell -Command { & "Tooling\Bundle Application\publish_build.ps1" -branch $env:CI_COMMIT_BRANCH -SCPHost "vps666555.ovh.net" -SCPPassword "hk7ZDU2S" -SCPSshHostKeyFingerprint "ssh-rsa 2048 d6PvFXbJCvbCwnSkaZuar93vgQ9eqInfg1FWPDMeZB8=" -configuration Debug -destination "/var/secretarium/www/root/downloads/windows/jMChQm4rF4yVLGxOjJNP/" }
+
+build-prerelease:
+ stage: build-prerelease
+ cache: {}
+ artifacts:
+    expire_in: 1 week
+ tags:
+ - shell
+ script:
+# run PowerShell script
+ - powershell -Command { & "Tooling\Build Solution\compile.ps1" -configuration Prerelease -solutionpath "C:\tmp\secretarium\core" -MSBuildPath "C:\VS\MSBuild\15.0\Bin" -local $False}
+ - powershell -NoProfile -Command { & "Tooling\Build Solution\run_tests.ps1" -configuration Prerelease -VSPath "C:\VS\" -exclude "secretarium_node_interractive_test.exe, secretarium_node_test.exe" }
+ - powershell -NoProfile -Command { & "Tooling\Build Solution\clean.ps1" }
+ - powershell -Command { & "Tooling\Bundle Application\publish_build.ps1" -branch $env:CI_COMMIT_BRANCH -SCPHost "vps666555.ovh.net" -SCPPassword "hk7ZDU2S" -SCPSshHostKeyFingerprint "ssh-rsa 2048 d6PvFXbJCvbCwnSkaZuar93vgQ9eqInfg1FWPDMeZB8=" -configuration Prerelease -destination "/var/secretarium/www/root/downloads/windows/jMChQm4rF4yVLGxOjJNP/" }
