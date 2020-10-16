@@ -49,7 +49,7 @@ LocalDistrib/*
 *vcxproj.user
 
 secretarium/build
-build
+build*
 third_party
 
 secretarium/interfaces/flatbuffers/*.h

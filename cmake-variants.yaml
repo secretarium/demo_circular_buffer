@@ -22,7 +22,7 @@ buildType:
     Prerelease:
       short: Prerelease
       long: Prerelease generated code
-      buildType: Prerelease
+      buildType: Release
       settings:
         BUILD_TYPE: prerelease
     Release:

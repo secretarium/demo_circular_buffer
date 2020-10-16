@@ -12,6 +12,9 @@ target_compile_definitions(App PRIVATE ${HOST_DEFINES})
 target_include_directories(App PUBLIC include ${HOST_INCLUDES})
 target_compile_options(App PUBLIC ${HOST_COMPILE_OPTIONS})
 target_link_directories(App PUBLIC ${SGX_LIBRARY_PATH})
+target_link_options(App PUBLIC 
+  /WHOLEARCHIVE:sgx_uswitchless.lib 
+  /NODEFAULTLIB:libcmtd.lib)
 
 target_link_libraries(App
 
