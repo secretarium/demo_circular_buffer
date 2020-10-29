@@ -5,7 +5,6 @@
 A performance test example of using circular buffers between host and confidential enclaves, comparing against conventional and switchless E/OCalls.
 
 ## How to build/execute:
-=========
 ## Windows:
 1. Make sure you have the Intel® Software Guard Extensions Windows SDK package installed.
 1. Open the Visual Studio 2019 solution file "Switchless.sln". 
